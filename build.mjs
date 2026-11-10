@@ -72,12 +72,12 @@ const registry = {
   name: 'MarkEdit Explorer',
   description:
     'A VS Code / Codex style file explorer sidebar: multi-root workspaces, file management, remembered state and auto refresh.',
-  author: 'nick-bi',
-  homepage: 'https://github.com/nick-bi/markedit-explorer',
+  author: 'NickBi1',
+  homepage: 'https://github.com/NickBi1/markedit-explorer',
   versions: [
     {
       version,
-      url: `https://github.com/nick-bi/markedit-explorer/releases/download/v${version}/markedit-explorer.js`,
+      url: `https://github.com/NickBi1/markedit-explorer/releases/download/v${version}/markedit-explorer.js`,
       sha256,
       minAppVersion,
       notes: 'Initial release: file tree, file operations, workspace memory and auto refresh.',
