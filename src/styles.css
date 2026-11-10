@@ -1,0 +1,368 @@
+/* MarkEdit Explorer — all selectors are prefixed with mex- to avoid collisions
+   with MarkEdit, MarkEdit-preview (cm-*) and other sidebar extensions. */
+
+.mex {
+  --mex-accent: AccentColor;
+  --mex-hover: rgba(127, 127, 127, 0.14);
+  --mex-selected: rgba(127, 127, 127, 0.22);
+  --mex-active: rgba(127, 127, 127, 0.30);
+  --mex-border: rgba(127, 127, 127, 0.24);
+  --mex-muted: rgba(127, 127, 127, 0.95);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 260px;
+  background: Canvas;
+  color: CanvasText;
+  border-right: 1px solid var(--mex-border);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 22px;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+  outline: none;
+  transition: transform 0.16s ease;
+}
+
+.mex.mex-right {
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 1px solid var(--mex-border);
+}
+
+.mex.mex-hidden {
+  visibility: hidden;
+  transform: translateX(-100%);
+}
+
+.mex.mex-right.mex-hidden {
+  transform: translateX(100%);
+}
+
+/* MarkEdit's active-line layer assumes the editor starts at x=0. */
+html.mex-push .cm-md-activeLine {
+  transform: translateX(calc(-1 * var(--mex-left-inset, 0px))) !important;
+}
+
+.mex-sash {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  right: -3px;
+  z-index: 3;
+  cursor: ew-resize;
+}
+
+.mex.mex-right .mex-sash {
+  right: auto;
+  left: -3px;
+}
+
+.mex-sash:hover,
+.mex-sash.mex-dragging {
+  background: var(--mex-accent);
+  opacity: 0.65;
+}
+
+.mex-header {
+  display: flex;
+  align-items: center;
+  flex: 0 0 34px;
+  height: 34px;
+  padding: 0 8px 0 14px;
+  box-sizing: border-box;
+}
+
+.mex-title {
+  flex: 1 1 auto;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mex-actions {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex: 0 0 auto;
+}
+
+.mex-btn {
+  display: block;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+  color: inherit;
+  opacity: 0.72;
+  cursor: default;
+}
+
+.mex-btn:hover {
+  background-color: var(--mex-hover);
+  opacity: 1;
+}
+
+.mex-btn:focus-visible {
+  outline: 1px solid var(--mex-accent);
+  outline-offset: -1px;
+}
+
+.mex-filterbar {
+  display: flex;
+  align-items: center;
+  flex: 0 0 28px;
+  padding: 0 8px 0 12px;
+  box-sizing: border-box;
+}
+
+.mex-filter {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 21px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border: 1px solid var(--mex-border);
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 11px;
+  outline: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.mex-filter:focus {
+  border-color: var(--mex-accent);
+}
+
+.mex-tree {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+  padding-bottom: 12px;
+}
+
+.mex-tree::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mex-tree::-webkit-scrollbar-thumb {
+  background: var(--mex-border);
+  border-radius: 4px;
+}
+
+.mex-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--mex-row-height, 22px);
+  min-height: var(--mex-row-height, 22px);
+  padding-right: 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mex-row:hover {
+  background: var(--mex-hover);
+}
+
+.mex-row.mex-selected {
+  background: var(--mex-selected);
+}
+
+.mex-row.mex-open-file {
+  box-shadow: inset 2px 0 0 var(--mex-accent);
+}
+
+.mex-row.mex-open-file .mex-label {
+  font-weight: 600;
+}
+
+.mex-row.mex-cut {
+  opacity: 0.45;
+}
+
+.mex-row.mex-drop-target {
+  background: var(--mex-active);
+}
+
+.mex-row.mex-root {
+  height: 24px;
+  min-height: 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mex-row.mex-error .mex-label {
+  color: -apple-system-red;
+}
+
+.mex-twistie {
+  flex: 0 0 14px;
+  width: 14px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.75;
+  transition: transform 0.1s ease;
+}
+
+.mex-twistie.mex-expanded {
+  transform: rotate(90deg);
+}
+
+.mex-twistie.mex-blank {
+  visibility: hidden;
+}
+
+.mex-ico {
+  position: relative;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0 6px 0 2px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+}
+
+.mex-folder::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 5px;
+  width: 14px;
+  height: 9px;
+  border: 1.3px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+.mex-folder::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 2px;
+  width: 7px;
+  height: 4px;
+  border: 1.3px solid currentColor;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  background: Canvas;
+  opacity: 0.7;
+}
+
+.mex-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: rgba(127, 127, 127, 0.32);
+  color: inherit;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.mex-badge.mex-md { background: rgba(66, 145, 235, 0.85); color: #fff; }
+.mex-badge.mex-code { background: rgba(224, 165, 60, 0.85); color: #fff; }
+.mex-badge.mex-data { background: rgba(150, 120, 210, 0.85); color: #fff; }
+.mex-badge.mex-text { background: rgba(120, 160, 130, 0.75); color: #fff; }
+
+.mex-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mex-hint {
+  flex: 0 0 auto;
+  margin-left: 6px;
+  font-size: 10px;
+  opacity: 0.55;
+}
+
+.mex-empty {
+  padding: 14px 16px;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: normal;
+  opacity: 0.7;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.mex-empty .mex-empty-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.mex-empty .mex-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border: 1px solid var(--mex-border);
+  border-radius: 4px;
+  cursor: default;
+}
+
+.mex-empty .mex-link:hover {
+  background: var(--mex-hover);
+}
+
+.mex-footer {
+  display: flex;
+  align-items: center;
+  flex: 0 0 22px;
+  height: 22px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-top: 1px solid var(--mex-border);
+  font-size: 10px;
+  opacity: 0.6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mex-footer span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mex { transition: none; }
+  .mex-twistie { transition: none; }
+}

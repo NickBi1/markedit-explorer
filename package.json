@@ -1,0 +1,16 @@
+{
+  "name": "markedit-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A VS Code / Codex style file explorer sidebar extension for MarkEdit 1.37+",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/smoke.test.mjs",
+    "check": "node --check dist/markedit-explorer.js",
+    "install:local": "bash install.sh"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
